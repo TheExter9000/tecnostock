@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'tecnostock';
+$dbname = 'tecnostock_db';
 $username = 'root';
 $password = '';
 
