@@ -7,7 +7,6 @@ if (!isset($_SESSION['id_usuario'])) {
     exit;
 }
 
-// 1. Obtener el ID del producto desde la URL
 if (!isset($_GET['id'])) {
     header("Location: dashboard.php");
     exit;
@@ -15,7 +14,6 @@ if (!isset($_GET['id'])) {
 
 $id_producto = $_GET['id'];
 
-// 2. Procesar la actualización si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = $_POST['nombre'];
     $id_categoria = $_POST['id_categoria'];
@@ -24,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stock_actual = $_POST['stock_actual'];
     $stock_minimo = $_POST['stock_minimo'];
 
-    // Validación en el servidor: evitar números negativos
     if ($precio >= 0 && $stock_actual >= 0 && $stock_minimo >= 0) {
         try {
             $sql = "UPDATE Producto 
@@ -53,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// 3. Consultar los datos actuales del producto
 $stmt = $pdo->prepare("SELECT * FROM Producto WHERE id_producto = :id AND estado = 1");
 $stmt->execute(['id' => $id_producto]);
 $producto = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -63,7 +59,6 @@ if (!$producto) {
     exit;
 }
 
-// 4. Traer categorías para el menú desplegable
 $stmt_cat = $pdo->query("SELECT id_categoria, nombre FROM Categoria WHERE estado = 1");
 $categorias = $stmt_cat->fetchAll(PDO::FETCH_ASSOC);
 ?>
