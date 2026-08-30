@@ -92,6 +92,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <a href="editar_producto.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-secondary">Editar</a>
                                     <a href="desactivar_producto.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de desactivar este producto?');">Desactivar</a>
+                                    <a href="registrar_movimiento.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-success">Stock</a>
                                 </td> 
                             </tr>
                         <?php endforeach; ?>
