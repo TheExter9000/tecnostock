@@ -79,6 +79,7 @@ $sql = "SELECT p.*, c.nombre AS categoria_nombre
                             <td>Activo</td>
                             <td>
                                 <a href="editar_producto.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-secondary">Editar</a>
+                                <a href="desactivar_producto.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro de desactivar este producto?');">Desactivar</a>
                             </td> 
                         </tr>
                     <?php endforeach; ?>
