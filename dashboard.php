@@ -1,14 +1,12 @@
 <?php
 session_start();
 
-// Validar que la ruta sea alcanzable
 if (!file_exists('config/conexion.php')) {
     die("Fallo 1: El archivo config/conexion.php no existe en esta ruta.");
 }
 
 require_once 'config/conexion.php';
 
-// Validar que la variable se generó correctamente
 if (!isset($pdo)) {
     die("Fallo 2: El archivo cargó, pero la variable \$pdo no se encontró dentro de él.");
 }
@@ -44,6 +42,12 @@ $sql = "SELECT p.*, c.nombre AS categoria_nombre
             </div>
         </div>
     </nav>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mb-0">Inventario de Productos</h3>
+            <a href="crear_producto.php" class="btn btn-primary">+ Nuevo Producto</a>
+        </div>
+    </div>
     <div class="card shadow-sm">
         <div class="card-body">
             <table class="table table-hover align-middle">
@@ -74,7 +78,7 @@ $sql = "SELECT p.*, c.nombre AS categoria_nombre
                             </td>
                             <td>Activo</td>
                             <td>
-                                <button class="btn btn-sm btn-secondary">Editar</button>
+                                <a href="editar_producto.php?id=<?php echo $prod['id_producto']; ?>" class="btn btn-sm btn-secondary">Editar</a>
                             </td> 
                         </tr>
                     <?php endforeach; ?>
