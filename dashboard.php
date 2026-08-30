@@ -15,10 +15,18 @@ if (!isset($_SESSION['id_usuario'])) {
     header("Location: index.php");
     exit;
 }
+$buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
+
 $sql = "SELECT p.*, c.nombre AS categoria_nombre
         FROM Producto p
         LEFT JOIN Categoria c ON p.id_categoria = c.id_categoria
         WHERE p.estado = 1";
+        $params = [];
+
+        if ($buscar != '') {
+            $sql .= " AND (p.nombre LIKE :buscar OR p.codigo LIKE :buscar OR c.nombre LIKE :buscar)";
+            $params['buscar'] = "%$buscar%";
+        }
         $stmt = $pdo->query($sql);
         $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -47,6 +55,13 @@ $sql = "SELECT p.*, c.nombre AS categoria_nombre
             <h3 class="mb-0">Inventario de Productos</h3>
             <a href="crear_producto.php" class="btn btn-primary">+ Nuevo Producto</a>
         </div>
+        <form action="dashboard.php" method=GET class="d-flex mb-4 shadow-sm"></form>
+            <input type="text" name="buscar" class="form-control me-2" placeholder="Buscar por nombre, código o categoría" value="<?php echo htmlspecialchars($buscar); ?>">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+            <?php if ($buscar != ''): ?>
+                <a href="dashboard.php" class="btn btn-outline-secondary ms-2">Limpiar</a>
+            <?php endif; ?>
+        </form>
     </div>
     <div class="card shadow-sm">
         <div class="card-body">
