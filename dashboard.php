@@ -1,12 +1,22 @@
 <?php
-
 session_start();
 
-if (!isset($_SESSION['id_usuario'])) {
-    header('Location: index.php');
-    exit();
+// Validar que la ruta sea alcanzable
+if (!file_exists('config/conexion.php')) {
+    die("Fallo 1: El archivo config/conexion.php no existe en esta ruta.");
 }
 
+require_once 'config/conexion.php';
+
+// Validar que la variable se generó correctamente
+if (!isset($pdo)) {
+    die("Fallo 2: El archivo cargó, pero la variable \$pdo no se encontró dentro de él.");
+}
+
+if (!isset($_SESSION['id_usuario'])) {
+    header("Location: index.php");
+    exit;
+}
 $sql = "SELECT p.*, c.nombre AS categoria_nombre
         FROM Producto p
         LEFT JOIN Categoria c ON p.id_categoria = c.id_categoria
@@ -54,8 +64,7 @@ $sql = "SELECT p.*, c.nombre AS categoria_nombre
                             <td><?php echo htmlspecialchars($prod['codigo']); ?></td>
                             <td><?php echo htmlspecialchars($prod['nombre']); ?></td>
                             <td><?php echo htmlspecialchars($prod['categoria_nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($prod['precio']); ?></td>
-                            <td><?php echo htmlspecialchars($prod['stock'], 0, ',', '.'); ?></td>
+                            <td><?php echo number_format($prod['precio'], 0, ',', '.'); ?></td>
                             <td>
                                 <?php if ($prod['stock_actual'] < $prod['stock_minimo']): ?>
                                    <span class="badge bg-danger"><?php echo $prod['stock_actual']; ?> (Bajo)</span>
